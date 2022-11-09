@@ -26,7 +26,7 @@ A novel deep model for estimating the binding affinity between proteins and drug
 
 ```bash
 # creat new environ
-conda creat -n pdi_fusionner python=3.8.13
+conda create -n pdi_fusionner python=3.8.13
 
 # build dependencies
 pip install -r requirements.txt
@@ -37,7 +37,7 @@ pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f htt
 
 1. Data preparation
 
-* Place the processed data file, namely `pafnucy_total_rdkit-smiles-v1.csv`,  to `./files/data`. Notice that this file combines both the proteins' datasets, i.e., PDBBind, CASF-2013 and Astex datasets, and the drug SMILES dataset. An entry of this data should look like:
+* Place the processed data file, namely `pafnucy_total_rdkit-smiles-v1.csv`,  to `./files/data`. Notice that this file combines both the protein datasets, i.e., PDBBind, CASF-2013 and Astex datasets, and the drug SMILES dataset. An entry of this file should look like:
    
    |     | PDB-ID | seq        | SMILES     | rdkit_smiles | Affinity-Value | set   |
    |:---:| ------ | ---------- | ---------- | ------------ | -------------- | ----- |
@@ -55,7 +55,7 @@ pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f htt
 python finetune_main.py --model_idx=0 --epochs=150 --gpu_start=0 --batch_size=64 --tb
 ```
 
-Specify `model_idx` to choose the model we proposed or its ablation variants. More options please refer to `config.yaml` and the argument parser in `finetune_main.py`. \
+Specify `model_idx` to choose our proposed model or its ablation variants. More options please refer to `config.yaml` and the argument parser in `finetune_main.py`. \
 Notice: our pre-trained encoder is at `./files/pretrain/BertModel.pth`.
 
 ## Performance
@@ -64,9 +64,9 @@ Notice: our pre-trained encoder is at `./files/pretrain/BertModel.pth`.
 
 ## Citation
 
-Please cite the following paper if you found our model useful. Thanks!
+Please cite our paper if you found our model useful. Thanks!
 
-> Accurate Protein-Drug Interaction Prediction Via Attention Network With Structure Information.
+> Accurate Protein-Drug Interaction Prediction Via Attention Network With Structure Information, 2022.
 
 ```
 @{
