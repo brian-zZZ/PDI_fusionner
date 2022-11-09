@@ -1,0 +1,32 @@
+### model config
+# "bert": Proposed model, utilize BERT as seq extractor and GAT as struc & drug extractor
+# === ablation models ===
+# "wo_seq": Without sequence embedding
+# "wo_struc": Without sturcture embedding
+# "wo_drug": Without drug embedding
+# "wo_pt": Without large-scaled pre-training
+# "bilstm": Replace BERT in the model with BiLSTM
+model_list: ["bert", 'wo_seq', 'wo_struc', 'wo_drug', 'wo_pt', "bilstm"]
+
+### paths of file config
+input_file: "./files/data/pafnucy_total_rdkit-smiles-v1.csv"
+contact_map_file: "./files/data/3d_pdb/pdbbind_2016"
+pretrained_model_pth: "./files/pretrain/BertModel.pth" # './files/pretrain/pytorch_model.pth'
+bert_config: './files/pretrain/bert_config.json'
+vocab_path: './files/pretrain/PPI_vocab.txt'
+pre_ft_pth: "./results/[proposed]adan_nowarmup_reduce_pat10_fac0.5_minlr1e-5-bert_seed1145114_Sat-Nov--5-22:27:51-2022/best-[test]-model-testRMSE1.2898-epoch108.pth"
+log_base: "./results"
+tb_log: "./tb_runs"
+
+### hyperparams cofing
+p_dropout: 0.3 # 0.4
+TASK: 'Affinity-Value'  # target to predict
+SMILES: "rdkit_smiles"  # drug SMILES to input
+nonspecial_vocab_size: 26  # the size of vocab without special tokens including "[PAD][CLS][SEP][MASK][UNK]"
+max_seq_len: 512
+# GAT parameters
+radius: 2  # the iteration num of atom embedding
+T: 2  # # the iteration num of molecule embedding
+fingerprint_dim: 150
+pro_gat_dim: 64
+pro_seq_dim: 512

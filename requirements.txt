@@ -1,0 +1,16 @@
+transformers == 2.7.0
+rdkit == 2022.9.1
+numpy == 1.23.4
+pandas == 1.5.1
+scipy == 1.9.3
+scikit-learn == 1.1.1
+matplotlib == 3.6.1
+seaborn == 0.11.2
+tqdm == 4.64.1
+tensorboardX == 2.5.1
+pyyaml == 6.0
+
+### Notice:
+# python == 3.8.13
+# torch == 1.8.0
+# pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
