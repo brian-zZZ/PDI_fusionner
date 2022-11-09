@@ -127,7 +127,7 @@ def runner(args):
 
         if args.warmup:
             scheduler.step()
-        if args.reduce & args.nonwarmup:
+        if args.reduce & ~args.warmup:
             scheduler.step(valid_MSE)
         epoch_te = time.time()
         for para_group in optimizer.param_groups:
