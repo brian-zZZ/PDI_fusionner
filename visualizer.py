@@ -101,6 +101,7 @@ def plot_hist(dir_save):
     width = .28
     xticklabels = ['Valid', 'Core2016', 'CASF2013', 'Astex']
     spec = gridspec.GridSpec(ncols=1, nrows=2, height_ratios=[1, 1], wspace=0.1, hspace=0.15)
+    
     ### uppper bar, R
     ax1 = fig.add_subplot(spec[0])
     a1b1 = ax1.bar(x - width/2, pafnucy[1: , 1], width*0.8, label='Pafnucy', color='#3D57A4',
@@ -118,21 +119,18 @@ def plot_hist(dir_save):
     ax1.legend(fontsize=20)
     ax1.spines['bottom'].set_linewidth(1.5)
     ax1.spines['left'].set_linewidth(1.5)
+    
     ### lower bar, RMSE
     ax2 = fig.add_subplot(spec[1])
     a2b1 = ax2.bar(x-width/2, pafnucy[1: , 0], width*0.8, color='#3D57A4',
                     edgecolor='black', linewidth=2.5, ecolor='black', capsize=10)
     a2b2 = ax2.bar(x+width/2, ours[1: , 0], width*0.8, color='#EC1D25',
                     edgecolor='black', linewidth=2.5, ecolor='black', capsize=10)
-    
     label_bars(ax2, pafnucy[1:, 0], a2b1)
     label_bars(ax2, ours[1:, 0], a2b2, fontweight='bold')
-
-    # ax2.bar_label(a2b2, fmt='%.3f')
     ax2.set_xticklabels([])
     ax2.xaxis.tick_top()
     ax2.set_ylim([1.25, 1.65])
-    # ax2.set_yticks(np.linspace(0.75, 1, 6))
     ax2.invert_yaxis()
     ax2.spines['bottom'].set_visible(False)
     ax2.spines['right'].set_visible(False)
@@ -141,7 +139,7 @@ def plot_hist(dir_save):
     ax2.set_ylabel("RMSE", fontsize=20)
 
     # plt.suptitle("Metrics of Ours vs Pafnucy", y=0.93, size=20)
-    plt.savefig(dir_save, bbox_inches='tight', dpi=512)#, dpi=1024
+    plt.savefig(dir_save, bbox_inches='tight', dpi=512)
     plt.show()
                 
 
@@ -172,9 +170,7 @@ def plot_molecule(smis=None):
             'COC(=O)C1=CC2=CC=CN2C=N1',
             'C1=C2C=C(N=CN2C(=C1)Cl)C(=O)O',
         ]
-        # smis=[
-        #     'C1=CC2=C(C(=C1)C3=CN=CN4C3=CC=C4)ON=C2C5=CC=C(C=C5)F',
-        # ]
+
     mols=[]
     for i, smi in enumerate(smis):
         mol = Chem.MolFromSmiles(smi)
@@ -185,8 +181,8 @@ def plot_molecule(smis=None):
     
 if __name__ == '__main__':
     print("Plot linear-regression fitting of labels using the saved df")
-    labels_df_pth = "./results_search/adan_nowarmup_reduce_pat10_fac0.5_minlr1e-5-bert_seed1145114_Sat-Nov--5-22:27:51-2022/pred_real_labels.csv"
-    dir_save = "./results_search/adan_nowarmup_reduce_pat10_fac0.5_minlr1e-5-bert_seed1145114_Sat-Nov--5-22:27:51-2022/"
+    labels_df_pth = "./results/a_run/pred_real_labels.csv"
+    dir_save = "./results/a_run/"
     labels_df = pd.read_csv(labels_df_pth)
     linreg_fitting(labels_df, dir_save)
     

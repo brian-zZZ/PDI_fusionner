@@ -48,43 +48,6 @@ class ProModelFactory(nn.Module):
             return self.predict_n_(pro_feature)
 
 
-class ProModelFactory_fc(nn.Module):
-    def __init__(self, radius, T, input_feature_dim, input_bond_dim, \
-                 fingerprint_dim, p_dropout, pro_seq_dim, pro_gat_dim, model_type, args):
-        super(ProModelFactory_fc, self).__init__()
-        self.model_type = model_type
-        if model_type == "wo_seq":
-            pro_seq_dim = 0
-        elif model_type == "wo_struc":
-            pro_gat_dim = 0
-        self.pro_concat_dim = pro_seq_dim + pro_gat_dim
-        self.pro_final_dim = int(self.pro_concat_dim / 2) # half of the concatenated dim
-        self.Pro = ProNetwork(self.pro_concat_dim, self.pro_final_dim, pro_seq_dim, pro_gat_dim, model_type, 
-                              radius=radius, T=T, p_dropout=p_dropout, args=args)
-
-        if model_type != "wo_drug": # with drug molecule
-            self.GAT = Fingerprint(radius, T, input_feature_dim, input_bond_dim, fingerprint_dim, p_dropout)
-            self.predict_n = nn.Sequential(nn.Dropout(p_dropout),
-                                           nn.Linear(fingerprint_dim + self.pro_final_dim, 1))
-        else:
-            self.predict_n_ = nn.Sequential(nn.Dropout(p_dropout),
-                                            nn.Linear(self.pro_final_dim, 1))
-        
-    def forward(self, atom_list, bond_list, atom_degree_list, bond_degree_list, atom_mask, tokenized_sent, amino_list,
-                amino_degree_list, amino_mask):
-        # Protein embedding
-        pro_feature = self.Pro(tokenized_sent, amino_list, amino_degree_list, amino_mask)
-
-        # Drug embedding
-        if self.model_type != 'wo_drug':
-            smile_feature = self.GAT(atom_list, bond_list, atom_degree_list, bond_degree_list, atom_mask)
-            con_feature = torch.cat((smile_feature, pro_feature), dim=1)
-            prediction = self.predict_n(con_feature)
-            return prediction
-        else:
-            return self.predict_n_(pro_feature)
-
-
 class ProNetwork(nn.Module):
     def __init__(self, pro_input_size, pro_out_size, seq_size, gat_size, model_type, radius=2, T=1, p_dropout=0.3, args=None):
         super(ProNetwork, self).__init__()
